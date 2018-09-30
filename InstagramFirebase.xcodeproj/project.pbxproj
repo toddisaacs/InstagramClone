@@ -12,6 +12,7 @@
 		324E35022161022600D7275C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 324E35002161022600D7275C /* Main.storyboard */; };
 		324E35042161022600D7275C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324E35032161022600D7275C /* Assets.xcassets */; };
 		324E35072161022600D7275C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 324E35052161022600D7275C /* LaunchScreen.storyboard */; };
+		324E351021612B9400D7275C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324E350F21612B9400D7275C /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		324E35032161022600D7275C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		324E35062161022600D7275C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		324E35082161022600D7275C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		324E350F21612B9400D7275C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		324E34FB2161022600D7275C /* InstagramFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				324E350E21612B7B00D7275C /* utils */,
 				324E34FC2161022600D7275C /* AppDelegate.swift */,
 				324E34FE2161022600D7275C /* ViewController.swift */,
 				324E35002161022600D7275C /* Main.storyboard */,
@@ -62,6 +65,14 @@
 				324E35082161022600D7275C /* Info.plist */,
 			);
 			path = InstagramFirebase;
+			sourceTree = "<group>";
+		};
+		324E350E21612B7B00D7275C /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				324E350F21612B9400D7275C /* Extensions.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				324E34FF2161022600D7275C /* ViewController.swift in Sources */,
+				324E351021612B9400D7275C /* Extensions.swift in Sources */,
 				324E34FD2161022600D7275C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
