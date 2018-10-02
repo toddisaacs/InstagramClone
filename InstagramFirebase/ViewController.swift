@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController {
 
@@ -25,6 +26,7 @@ class ViewController: UIViewController {
     tf.borderStyle = .roundedRect
     tf.font = .systemFont(ofSize: 14)
     
+    tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
     return tf
   }()
   
@@ -35,6 +37,7 @@ class ViewController: UIViewController {
     tf.borderStyle = .roundedRect
     tf.font = .systemFont(ofSize: 14)
     
+    tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
     return tf
   }()
   
@@ -46,6 +49,7 @@ class ViewController: UIViewController {
     tf.font = .systemFont(ofSize: 14)
     tf.isSecureTextEntry = true
     
+    tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
     return tf
   }()
   
@@ -56,6 +60,9 @@ class ViewController: UIViewController {
     button.setTitleColor(.white, for: .normal)
     button.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
     button.layer.cornerRadius = 5
+    
+    button.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
+    
     return button
   }()
   
@@ -99,6 +106,40 @@ class ViewController: UIViewController {
     stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40).isActive = true
     stackView.heightAnchor.constraint(equalToConstant: 200).isActive = true
   }
+  
+  @objc fileprivate func handleTextInputChange() {
+    let hasInput = emailTextField.text?.count ?? 0 > 0 &&
+                    passwordTextField.text?.count ?? 0 > 0 &&
+                    usernameTextField.text?.count ?? 0 > 0
+    
+    if hasInput {
+      signUpButton.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 237)
+    } else {
+      signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
+    }
+  }
 
+  @objc fileprivate func handleSubmit() {
+    guard let email = emailTextField.text, email.count > 0 else {
+      return
+    }
+    guard let username = usernameTextField.text, username.count > 0 else {
+      return
+    }
+    guard let password = passwordTextField.text, password.count > 0 else {
+      return
+    }
+    
+
+    Auth.auth().createUser(withEmail: email, password: password) { (user: User?, error: Error?) in
+      if let error = error {
+        print("Error \(error.localizedDescription)")
+      }
+      
+      if let user = user {
+        print("Success, created user:", user.uid)
+      }
+    }
+  }
 }
 
