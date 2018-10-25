@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3226EE6B21794E7E00DB6E32 /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3226EE6A21794E7E00DB6E32 /* UserProfileHeader.swift */; };
+		32339D01216E2BBB00F55949 /* MainTabBarControlller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32339D00216E2BBB00F55949 /* MainTabBarControlller.swift */; };
+		32339D03216E2D9700F55949 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32339D02216E2D9700F55949 /* UserProfileController.swift */; };
 		324E34FD2161022600D7275C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324E34FC2161022600D7275C /* AppDelegate.swift */; };
 		324E34FF2161022600D7275C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324E34FE2161022600D7275C /* ViewController.swift */; };
 		324E35022161022600D7275C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 324E35002161022600D7275C /* Main.storyboard */; };
@@ -18,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3226EE6A21794E7E00DB6E32 /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
+		32339D00216E2BBB00F55949 /* MainTabBarControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarControlller.swift; sourceTree = "<group>"; };
+		32339D02216E2D9700F55949 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		324E34F92161022600D7275C /* InstagramFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		324E34FC2161022600D7275C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		324E34FE2161022600D7275C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -44,6 +50,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3226EE6921794E5300DB6E32 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				3226EE6A21794E7E00DB6E32 /* UserProfileHeader.swift */,
+				32339D02216E2D9700F55949 /* UserProfileController.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
 		324E34F02161022600D7275C = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +80,7 @@
 		324E34FB2161022600D7275C /* InstagramFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				3226EE6921794E5300DB6E32 /* UserProfile */,
 				324E350E21612B7B00D7275C /* utils */,
 				324E34FC2161022600D7275C /* AppDelegate.swift */,
 				324E34FE2161022600D7275C /* ViewController.swift */,
@@ -73,6 +89,7 @@
 				324E35052161022600D7275C /* LaunchScreen.storyboard */,
 				324E35082161022600D7275C /* Info.plist */,
 				324E35112162477C00D7275C /* GoogleService-Info.plist */,
+				32339D00216E2BBB00F55949 /* MainTabBarControlller.swift */,
 			);
 			path = InstagramFirebase;
 			sourceTree = "<group>";
@@ -177,8 +194,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-InstagramFirebase/Pods-InstagramFirebase-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -187,8 +202,6 @@
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
@@ -205,15 +218,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-InstagramFirebase-checkManifestLockResult.txt",
 			);
@@ -232,6 +241,9 @@
 				324E34FF2161022600D7275C /* ViewController.swift in Sources */,
 				324E351021612B9400D7275C /* Extensions.swift in Sources */,
 				324E34FD2161022600D7275C /* AppDelegate.swift in Sources */,
+				3226EE6B21794E7E00DB6E32 /* UserProfileHeader.swift in Sources */,
+				32339D03216E2D9700F55949 /* UserProfileController.swift in Sources */,
+				32339D01216E2BBB00F55949 /* MainTabBarControlller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

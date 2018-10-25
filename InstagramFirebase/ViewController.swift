@@ -9,13 +9,14 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
   let plusPhotoButton: UIButton = {
     let button = UIButton(type: .system)
     let image = #imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysOriginal)
     button.setImage(image, for: .normal)
     
+    button.addTarget(self, action: #selector(handlePlusPhoto), for: .touchUpInside)
     return button
   }()
   
@@ -119,6 +120,36 @@ class ViewController: UIViewController {
     }
   }
 
+  @objc fileprivate func handlePlusPhoto() {
+    let imagePickerController = UIImagePickerController()
+    imagePickerController.delegate = self
+    imagePickerController.allowsEditing = true
+    
+    present(imagePickerController, animated: true, completion: nil)
+  }
+  
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage
+    let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
+    
+    if let image = editedImage {
+      plusPhotoButton.setImage(image.withRenderingMode(.alwaysOriginal), for: .normal)
+    } else if let originalImage = originalImage {
+      plusPhotoButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
+    
+    plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width/2
+    plusPhotoButton.layer.masksToBounds = true
+    plusPhotoButton.layer.borderColor = UIColor.black.cgColor
+    plusPhotoButton.layer.borderWidth = 3
+    
+    dismiss(animated: true, completion: nil)
+  }
+  
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    dismiss(animated: true, completion: nil)
+  }
+  
   @objc fileprivate func handleSubmit() {
     guard let email = emailTextField.text, email.count > 0 else {
       return
@@ -136,9 +167,41 @@ class ViewController: UIViewController {
         print("Error \(error.localizedDescription)")
       }
       
-      if let user = user {
-        print("Success, created user:", user.uid)
+      print("Success, created user:", user?.uid ?? "")
+      guard let image = self.plusPhotoButton.imageView?.image else {
+        return
       }
+      
+      guard  let uploadData = UIImageJPEGRepresentation(image, 0.3)   else {
+        return
+      }
+      let filename = NSUUID().uuidString
+      
+      Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
+        if let err = err {
+          print("failed to upload profile iamge:", err)
+          return
+        }
+        
+        guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else { return }
+        
+        print("Successfully uploaded profile image:", profileImageUrl)
+        if let user = user {
+          
+          let dictionaryValues = ["username" : username, "profileImageUrl": profileImageUrl]
+          let values = [user.uid: dictionaryValues]
+          
+          Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (error, ref) in
+            if let error = error {
+              print("Failed to save user info into db:", error)
+              return
+            }
+            
+            print("Successfully saved user info to db")
+          })
+        }
+      })
+      
     }
   }
 }
