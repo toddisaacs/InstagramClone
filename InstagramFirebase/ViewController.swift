@@ -69,7 +69,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
   
   override func viewDidLoad() {
     super.viewDidLoad()
-   
+    view.backgroundColor = UIColor.white
     view.addSubview(plusPhotoButton)
     plusPhotoButton.anchor(top: view.topAnchor,
                            left: nil,
@@ -160,14 +160,13 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     guard let password = passwordTextField.text, password.count > 0 else {
       return
     }
-    
 
-    Auth.auth().createUser(withEmail: email, password: password) { (user: User?, error: Error?) in
+    Auth.auth().createUser(withEmail: email, password: password) { (result: AuthDataResult?, error: Error?) in
       if let error = error {
         print("Error \(error.localizedDescription)")
       }
       
-      print("Success, created user:", user?.uid ?? "")
+      print("Success, created user:", result?.user.uid ?? "")
       guard let image = self.plusPhotoButton.imageView?.image else {
         return
       }
@@ -175,33 +174,41 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
       guard  let uploadData = UIImageJPEGRepresentation(image, 0.3)   else {
         return
       }
-      let filename = NSUUID().uuidString
       
-      Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
-        if let err = err {
-          print("failed to upload profile iamge:", err)
-          return
-        }
+     let filenameGUID = NSUUID().uuidString
+     let storageRef = Storage.storage().reference().child("profile_images").child(filenameGUID)
         
-        guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else { return }
-        
-        print("Successfully uploaded profile image:", profileImageUrl)
-        if let user = user {
-          
-          let dictionaryValues = ["username" : username, "profileImageUrl": profileImageUrl]
-          let values = [user.uid: dictionaryValues]
-          
-          Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (error, ref) in
-            if let error = error {
-              print("Failed to save user info into db:", error)
-              return
+        storageRef.putData(uploadData, metadata: nil, completion:  { (metadata, err) in
+            if let err = err {
+                print("failed to upload profile iamge:", err)
+                return
             }
             
-            print("Successfully saved user info to db")
-          })
-        }
-      })
-      
+            //grab image URL
+            storageRef.downloadURL(completion: { (url, error) in
+                if error != nil {
+                    print("field to obtain downlaod URL for image upload: ", error ?? "")
+                } else {
+                    let profileImageUrl = url!.absoluteString
+                    
+                    //update the user's data to include username and profile image
+                    if let user = result?.user {
+                        let dictionaryValues = ["username" : username, "profileImageUrl": profileImageUrl]
+                        let values = [user.uid: dictionaryValues]
+                        
+                        Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (error, ref) in
+                            if let error = error {
+                                print("Failed to save user info into db:", error)
+                                return
+                            }
+                            
+                            print("Successfully saved user info to db")
+                        })
+                    }
+                }
+            })
+        })
+        
     }
   }
 }

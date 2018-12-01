@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     window = UIWindow()
     window?.rootViewController = MainTabBarController()
+    //window?.rootViewController = ViewController()
     return true
   }
 

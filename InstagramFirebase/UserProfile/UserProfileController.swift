@@ -11,6 +11,9 @@ import FirebaseAuth
 import Firebase
 
 class UserProfileController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+
+  let HEADER_ID = "headerId"
+
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -18,11 +21,11 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     fetchUser()
     
-    collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
+    collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: HEADER_ID)
   }
   
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath)
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HEADER_ID, for: indexPath)
     
     //header.backgroundColor = .green
     
@@ -36,6 +39,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
   }
   
   fileprivate func fetchUser() {
+    
     guard let uid = Auth.auth().currentUser?.uid else { return }
     Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
       print(snapshot.value ?? "")

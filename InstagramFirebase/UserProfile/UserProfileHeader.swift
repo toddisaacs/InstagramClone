@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class UserProfileHeader: UICollectionViewCell {
   
@@ -33,9 +35,39 @@ class UserProfileHeader: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+    
+   
   fileprivate func setupProfileImage() {
-    URLSession.shared.dataTask(with: <#T##URL#>) { (data, response, err) in
-      //
+    //get image
+    guard let uid = Auth.auth().currentUser?.uid else {
+        return
     }
+    
+    Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+        print(snapshot.value ?? "")
+        guard let dictionay = snapshot.value as? [String: Any] else { return }
+        //let username = dictionay["username"] as? String
+        guard let profileImageUrl = dictionay["profileImageUrl"] as? String else { return }
+        
+        //build image
+        guard let url = URL(string: profileImageUrl) else { return }
+      
+        URLSession.shared.dataTask(with: url) { (data, response, err) in
+              //check error and build image
+              guard let data = data else { return }
+              let image = UIImage(data: data)
+          
+              //render on the main thread
+              DispatchQueue.main.async {
+                self.profileImageView.image = image
+              }
+          
+            }.resume()
+
+    }) { (err) in
+        print("Failed to fetch user:", err)
+    }
+    
+    
   }
 }
